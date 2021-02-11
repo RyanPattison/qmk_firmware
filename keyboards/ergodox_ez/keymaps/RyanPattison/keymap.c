@@ -1,9 +1,11 @@
 #include QMK_KEYBOARD_H
 
 #include "version.h"
+#include "steno.h"
+#include "steno.c"
 
 enum custom_keycodes {
-  RGB_SLD = EZ_SAFE_RANGE,
+  RGB_SLD = STENO_END,
   KVM_SELECT_1,
   KVM_SELECT_2,
   VIM_SAVE,
@@ -14,13 +16,14 @@ enum layer_names {
     L_DVP_S_EM,
     L_NUMPAD,
     L_QTM,
+    L_STENO,
 };
 
 #define ____ KC_TRANSPARENT
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [L_DVP_EM] = LAYOUT_ergodox_pretty(
-    KC_AMPR,        KC_LBRACKET,    KC_LCBR,        KC_RCBR,        KC_LPRN,        KC_EQUAL,                 ____,                                 VIM_SAVE,     KC_ASTR,        KC_RPRN,        KC_PLUS,        KC_RBRACKET,    KC_EXLM,        KC_HASH,
+    KC_AMPR,        KC_LBRACKET,    KC_LCBR,        KC_RCBR,        KC_LPRN,        KC_EQUAL,       TT(L_STENO),                                    VIM_SAVE,     KC_ASTR,        KC_RPRN,        KC_PLUS,        KC_RBRACKET,    KC_EXLM,        KC_HASH,
     KC_DLR,         KC_SCOLON,      KC_COMMA,       KC_DOT,         KC_P,           KC_Y,           KC_LSHIFT,                                      KC_RSHIFT,      KC_F,           KC_G,           KC_C,           KC_R,           KC_L,           KC_BSLASH,
     LCTL_T(KC_ESCAPE),KC_A,           KC_O,           KC_E,           KC_U,           KC_I,                                                                           KC_D,           KC_H,           KC_T,           KC_N,           KC_S,           KC_MINUS,
     OSL(L_DVP_S_EM),KC_QUOTE,       KC_Q,           KC_J,           KC_K,           KC_X,           KC_LGUI,                                        KC_RGUI,        KC_B,           KC_M,           KC_W,           KC_V,           KC_Z,           OSL(L_DVP_S_EM),
@@ -59,6 +62,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                               ____,           ____,
                                                                                               ____,           ____,           ____,           ____,           ____,      ____     
   ),
+  [L_STENO] = LAYOUT_ergodox_pretty(
+              ____,           ST_LS,          ST_LT,           ST_LP,           ST_LH,        ST_STR,           ____,                                           ____,          ST_STR,           ST_RF,           ST_RP,           ST_RL,          ST_RT,           ST_RD,
+              ____,           ST_LS,          ST_LK,           ST_LW,           ST_LR,        ST_STR,           ____,                                           ____,          ST_STR,           ST_RR,           ST_RB,           ST_RG,           ST_RS,           ST_RZ,
+              ____,           ____,           ____,           ____,           ____,           ____,                                                                           ____,           ____,           ____,           ____,           ____,           ____,
+              ____,           ____,           ____,           ____,           ____,           ____,           ____,                                           ____,           ____,           ____,           ____,           ____,           ____,           ____,
+              ____,           ____,           ____,           ____,           ____,                                                                                                           ____,           ____,           ____,           ____,           ____,
+                                                                                                              ____,           ____,           ____,           ____,
+                                                                                                                              ____,           ____,
+                                                                                              ST_LA,         ST_LO,           ____,           ____,           ST_RE,     ST_RU 
+  ),
+
 };
 
 
@@ -80,7 +94,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     break;
     }
-  return true;
+  return process_steno_chord(keycode, record);
 }
 
 uint32_t layer_state_set_user(uint32_t state) {
