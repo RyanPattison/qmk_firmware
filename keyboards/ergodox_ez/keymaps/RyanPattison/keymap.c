@@ -1,8 +1,8 @@
 #include QMK_KEYBOARD_H
 
 #include "version.h"
+
 #include "steno.h"
-#include "steno.c"
 
 enum custom_keycodes {
   RGB_SLD = STENO_END,
@@ -63,14 +63,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                               ____,           ____,           ____,           ____,           ____,      ____     
   ),
   [L_STENO] = LAYOUT_ergodox_pretty(
-              ____,           ST_LS,          ST_LT,           ST_LP,           ST_LH,        ST_STR,           ____,                                           ____,          ST_STR,           ST_RF,           ST_RP,           ST_RL,          ST_RT,           ST_RD,
-              ____,           ST_LS,          ST_LK,           ST_LW,           ST_LR,        ST_STR,           ____,                                           ____,          ST_STR,           ST_RR,           ST_RB,           ST_RG,           ST_RS,           ST_RZ,
+              ____,           MY_STENO_LS,          MY_STENO_LT,           MY_STENO_LP,           MY_STENO_LH,        MY_STENO_STR,           ____,                                           ____,          MY_STENO_STR,           MY_STENO_RF,           MY_STENO_RP,           MY_STENO_RL,          MY_STENO_RT,           MY_STENO_RD,
+              ____,           MY_STENO_LS,          MY_STENO_LK,           MY_STENO_LW,           MY_STENO_LR,        MY_STENO_STR,           ____,                                           ____,          MY_STENO_STR,           MY_STENO_RR,           MY_STENO_RB,           MY_STENO_RG,           MY_STENO_RS,           MY_STENO_RZ,
               ____,           ____,           ____,           ____,           ____,           ____,                                                                           ____,           ____,           ____,           ____,           ____,           ____,
               ____,           ____,           ____,           ____,           ____,           ____,           ____,                                           ____,           ____,           ____,           ____,           ____,           ____,           ____,
               ____,           ____,           ____,           ____,           ____,                                                                                                           ____,           ____,           ____,           ____,           ____,
                                                                                                               ____,           ____,           ____,           ____,
                                                                                                                               ____,           ____,
-                                                                                              ST_LA,         ST_LO,           ____,           ____,           ST_RE,     ST_RU 
+                                                                                              MY_STENO_LA,         MY_STENO_LO,           ____,           ____,           MY_STENO_RE,     MY_STENO_RU 
   ),
 
 };
@@ -94,7 +94,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     break;
     }
-  return process_steno_chord(keycode, record);
+    return process_steno_chord(keycode, record->event.pressed);
 }
 
 uint32_t layer_state_set_user(uint32_t state) {

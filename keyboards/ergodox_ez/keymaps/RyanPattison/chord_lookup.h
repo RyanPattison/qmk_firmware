@@ -1,8 +1,9 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdbool.h>
 
 /**
- * Returns the string definition of the chord or NULL if the chord is undefined.
+ * Sends the corresponding string as output. Returns true if processing should continue (no match).
  */
-extern char const * chord_lookup(int32_t chord);
+bool process_chord(uint32_t chord);

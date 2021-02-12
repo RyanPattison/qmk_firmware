@@ -7,3 +7,4 @@
 #define DEBOUNCE 5
 
 #define FIRMWARE_VERSION u8"DaWLZ/DwqYP"
+#define FORCE_NKRO
